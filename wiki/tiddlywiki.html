@@ -145,15 +145,23 @@ Error message and password prompt
 
 <li>网络编程－hive</li>
 
+<li>C Upvalue In Lua</li>
+
+<li>Draft of 'Hive Read Process'</li>
+
 <li>Draft of 'New Tiddler'</li>
 
 <li>Draft of 'Thread &amp; Process'</li>
+
+<li>Draft of 'Weak Table In Lua'</li>
 
 <li>Hive Read Process</li>
 
 <li>Hive Require</li>
 
 <li>How to Read Lua Code</li>
+
+<li>Lua Call Stack</li>
 
 <li>Lua Function Call</li>
 
@@ -162,6 +170,8 @@ Error message and password prompt
 <li>lua wiki</li>
 
 <li>LuaQuestion</li>
+
+<li>M币系统帐号同步</li>
 
 <li>perl</li>
 
@@ -172,6 +182,8 @@ Error message and password prompt
 <li>systemtap</li>
 
 <li>Thread &amp; Process</li>
+
+<li>Weak Table In Lua</li>
 
 </ul>
 </p>
@@ -6238,13 +6250,13 @@ Error message and password prompt
 <div created="20160422062136628" modified="20160422062136628" title="$:/state/showeditpreview">
 <pre>yes</pre>
 </div>
-<div created="20160411024954796" modified="20160623101937022" title="$:/state/sidebar">
+<div created="20160411024954796" modified="20160627122907439" title="$:/state/sidebar">
 <pre>yes</pre>
 </div>
-<div created="20160411024855895" modified="20160623094056779" title="$:/state/tab/sidebar--1835078512">
+<div created="20160411024855895" modified="20160627062247794" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="[[Hive Read Process]] [[Lua Stack And Top]] [[Hive Require]] GettingStarted" title="$:/StoryList">
+<div list="M币系统帐号同步 GettingStarted" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -6424,6 +6436,50 @@ REFERENCE
 
 [[write call return EPIPE|http://man7.org/linux/man-pages/man2/write.2.html]]</pre>
 </div>
+<div created="20160627121709407" modified="20160627122855526" tags="lua5.2" title="C Upvalue In Lua">
+<pre>;shared variable of C lib in Lua
+:C in Lua ，没有static variable 和global variable来支持C function之间的变量共享，为了在Lua中满足C function(或者module）中满足共享变量，特别引入了 registry，upvalue两种类型机制。
+
+*registry
+&lt;&lt;&lt;
+在Lua_State中开辟一个table供给在该State状态下的function共享调用。
+&lt;&lt;&lt;
+*upvalue
+**closure
+&lt;&lt;&lt;
+While the registry offers global variables, the upvalue mechanism implements an  equivalent  of  C  static  variables  that  are  visible  only  inside  a  particular function
+&lt;&lt;&lt;
+
+**shared upvalues
+&lt;&lt;&lt;
+Frequently, we need to share some values or variables among all functions in a library. Although we can use the registry for that task, we can also use upvalues. Unlike Lua closures, C closures cannot share upvalues.  Each closure has its own independent upvalues.  However, we can set the upvalues of different functions  to  refer  to  a  common  table,  so  that  this  table  becomes  a  common
+environment where all those functions can share data.
+&lt;&lt;&lt;
+```
+/* Create library table ('lib' is its list of functions) */
+luaL_newlibtable(L, lib);
+
+/* create shared upvalue */
+luaL_newtable(L);
+
+/* add functions in list 'lib'to the new library ,share previous table  as upvalue*/
+libL_setfuncs(L, lib, 1) 
+```
+</pre>
+</div>
+<div created="20160622111927892" draft.of="Hive Read Process" draft.title="Hive Read Process" modified="20160627121651112" tags="" title="Draft of 'Hive Read Process'">
+<pre>!HIVE READ PROCESS
+* [[弄清楚hive中require 的使用|Hive Require]]；
+* [[弄清楚hive中lua function{} 函数调用实质|Lua Function Call]]
+* [[弄清楚lua中stack的分配和top的概念|Lua Stack And Top]]
+* Lua provides a registry, a predefined table for C to store data.
+* [[Lua 垃圾回收 weak table|Weak Table In Lua]].
+* [[Lua C 的upvalue 的使用范围|C Upvalue In Lua]]
+* [[Lua的函数调用桟机制| Lua Call Stack]]
+
+---
+</pre>
+</div>
 <div created="20160524115656508" draft.of="New Tiddler" draft.title="New Tiddler" modified="20160524115656508" tags="" title="Draft of 'New Tiddler'">
 <pre></pre>
 </div>
@@ -6442,11 +6498,32 @@ REFERENCE:
 
 #[[thread and process| http://www.qnx.com/developers/docs/6.4.1/neutrino/getting_started/s1_procs.html]]</pre>
 </div>
-<div created="20160622111927892" modified="20160623094402706" tags="" title="Hive Read Process">
+<div created="20160624034256183" draft.of="Weak Table In Lua" draft.title="Weak Table In Lua" modified="20160627062540346" tags="lua5.2 gc" title="Draft of 'Weak Table In Lua'">
+<pre>;Weak Table in Lua
+:场景：Lua 进行垃圾回收
+:输入：if an object is held only inside weak tables, lua will eventually collect the object.
+:输出：weak tables entries be collect.
+*举例说明weak tables
+&lt;&lt;&lt;
+ weak table 的出发点是Lua的垃圾回收机制不能完全的辨别program中的object是否还有用，例如 Pil Chapter Weak tables and finalizers 中描述，A typical example is stack ,implemented with an array and an index to the top ,You know that the valid part of array goes only up to the top ,bu Lua does not.If you pop a element by simply decrementing the top,the object left in the array is not garbage to Lua.Similarly any object stored in a global variable is not garbage to Lua ,even if your program will never use it again.
+&lt;&lt;&lt;
+
+&lt;&lt;&lt;Notice that `only object can be collected for weak tables`, In Lua number and string is not garbage.
+&lt;&lt;&lt;
+
+;weak table define in lua:
+:the weakness of a table is given by the field &quot;_ _mode&quot; of its metatable.
+&lt;&lt;&lt;_ _mode = &quot;v&quot;(value in table is weak)/&quot;k&quot;(key in table is weak),either value or key in table is collected ,the entry of table is removed from table .
+ </pre>
+</div>
+<div created="20160622111927892" modified="20160625021206088" tags="" title="Hive Read Process">
 <pre>!HIVE READ PROCESS
 * [[弄清楚hive中require 的使用|Hive Require]]；
 * [[弄清楚hive中lua function{} 函数调用实质|Lua Function Call]]
 * [[弄清楚lua中stack的分配和top的概念|Lua Stack And Top]]
+* Lua provides a registry, a predefined table for C to store data.
+* [[Lua 垃圾回收－weak table|Weak Table In Lua]]
+* [[Lua的函数调用桟机制| Lua Call Stack]]
 ---
 </pre>
 </div>
@@ -6519,6 +6596,16 @@ REFERENCE
 * lgc.c: incremental garbage collector. take your time.
 Read all the other files as you see references to them. Don't let your stack get too deep though.
 If you're done before X-Mas and understood all of it, you're good. The information density of the code is rather high.</pre>
+</div>
+<div created="20160625020553241" modified="20160627062859659" title="Lua Call Stack">
+<pre>!Lua Call Stack
+:Lua 调用函数桟是以无限列表来记录调用函数链条，在Lua_State结构体中的`Callinfo *ci` 结构体来记录调用函数。
+
+*问题：C function 调用链中，当前函数调用成功后会返回previous 的Callinfo，那previous再次next时，岂不是又重新调用函数一次。如果依靠GC回收的话，不可能这么及时吧，也不可能调用一次函数就GC一次。
+&lt;&lt;&lt;
+Lua_State中lua 的调用函数链是Callinfo链表结构，所以实际调用函数Lua_Cfunciton时会将Callinfo结构体中的实际调用函数和参数属性等field重新赋值，所以不会存在函数重复调用。
+&lt;&lt;&lt;
+</pre>
 </div>
 <div created="20160622115815237" modified="20160622120702500" tags="lua5.2" title="Lua Function Call">
 <pre>;Lua Function Synax
@@ -6670,6 +6757,17 @@ Environments Tutorial [ext[http://lua-users.org/wiki/EnvironmentsTutorial]]
 ;❓：为什么library 不能在多个states中共享变量，state中不是也会绑定全局state吗？
 ;❓：是指Lua没有C相应的变量类型的值赋予C变量吗？</pre>
 </div>
+<div created="20160628025556990" modified="20160628030155009" tags="M币" title="M币系统帐号同步">
+<pre>;M币系统开发者帐号
+:M币系统的开发者帐号信息来自于开发者社区同步的用户数据，开发者社区同步信息触发条件是：
+
+&lt;&lt;&lt;
+#目前配置了广告、数据服务签署开发者社区的电子协议后；
+#开发者社区通过配置相应的业务－李达
+&lt;&lt;&lt;
+
+</pre>
+</div>
 <div created="20160510020742558" modified="20160603023038005" tags="perl concept" title="perl">
 <pre>;perl data type
 :scalar($var)、array scalar(@var)、hash scalar(%var)；
@@ -6771,6 +6869,24 @@ in SMT system 每个thread都会在每个CPU分配有执行时间片段。操作
 REFERENCE:
 
 #[[thread and process| http://www.qnx.com/developers/docs/6.4.1/neutrino/getting_started/s1_procs.html]]</pre>
+</div>
+<div created="20160624034256183" modified="20160624040745580" tags="lua5.2 gc" title="Weak Table In Lua">
+<pre>;Weak Table in Lua
+:场景：Lua 进行垃圾回收
+:输入：if an object is held only inside weak tables, lua will eventually collect the object.
+:输出：weak tables entries be collect.
+*举例说明weak tables
+&lt;&lt;&lt;
+ weak table 的出发点是Lua的垃圾回收机制不能完全的辨别program中的object是否还有用，例如 Pil Chapter Weak tables and finalizers 中描述，A typical example is stack ,implemented with an array and an index to the top ,You know that the valid part of array goes only up to the top ,bu Lua does not.If you pop a element by simply decrementing the top,the object left in the array is not garbage to Lua.Similarly any object stored in a global variable is not garbage to Lua ,even if your program will never use it again.
+&lt;&lt;&lt;
+
+&lt;&lt;&lt;Notice that `only object can be collected for weak tables`, In Lua number and string is not garbage.
+&lt;&lt;&lt;
+
+;weak table define in lua:
+:the weakness of a table is given by the field &quot;_ _mode&quot; of its metatable.
+&lt;&lt;&lt;_ _mode = &quot;v&quot;(value in table is weak)/&quot;k&quot;(key in table is weak),either value or key in table is collected ,the entry of table is removed from table .
+ </pre>
 </div>
 
 </div>
