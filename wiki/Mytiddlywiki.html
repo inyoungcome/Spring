@@ -167,6 +167,8 @@ Error message and password prompt
 
 <li>Lua Function Call</li>
 
+<li>Lua Manu</li>
+
 <li>Lua Stack And Top</li>
 
 <li>lua wiki</li>
@@ -6255,10 +6257,10 @@ Error message and password prompt
 <div created="20160411024954796" modified="20160627122907439" title="$:/state/sidebar">
 <pre>yes</pre>
 </div>
-<div created="20160411024855895" modified="20160627062247794" title="$:/state/tab/sidebar--1835078512">
+<div created="20160411024855895" modified="20160702065011358" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="[[Lua Coroutine]] GettingStarted" title="$:/StoryList">
+<div list="[[Lua Manu]] GettingStarted" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -6641,6 +6643,15 @@ Lua_State中lua 的调用函数链是Callinfo链表结构，所以实际调用�
 
 &lt;&lt;&lt;
 in a function call , first prefixexp and args are evaluated. if the value of prefixexp has type function ,then this function is called with the given arguments.Otherwise the prefixexp &quot;call&quot;metamethod is called,having as the first parameter the value of the prefixexp,following by the origin call arguments</pre>
+</div>
+<div created="20160630023206388" modified="20160630023324103" tags="lua5.2" title="Lua Manu">
+<pre>;luaL_newmetatable [-0, +1, e]
+
+:int luaL_newmetatable (lua_State *L, const char *tname);
+&gt;If the registry already has the key tname, returns 0. Otherwise, creates a new table to be used as a metatable for userdata, adds it to the registry with key tname, and returns 1.
+
+&gt;In both cases pushes onto the stack the final value associated with tname in the registry.
+&gt;&gt;&gt;</pre>
 </div>
 <div created="20160623094421708" modified="20160623101925580" title="Lua Stack And Top">
 <pre>;Lua 中stack;
