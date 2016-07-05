@@ -131,6 +131,8 @@ Error message and password prompt
 
 <li>$:/temp/info-plugin</li>
 
+<li>$:/temp/search</li>
+
 <li>$:/themes/tiddlywiki/snowwhite</li>
 
 <li>$:/themes/tiddlywiki/vanilla</li>
@@ -141,9 +143,13 @@ Error message and password prompt
 
 <li>生产力工具－邮件</li>
 
+<li>数学pearls</li>
+
 <li>双创－邮件</li>
 
 <li>网络编程－hive</li>
+
+<li>Apartment One Charge And Billing</li>
 
 <li>C Upvalue In Lua</li>
 
@@ -152,8 +158,6 @@ Error message and password prompt
 <li>Draft of 'New Tiddler'</li>
 
 <li>Draft of 'Thread &amp; Process'</li>
-
-<li>Draft of 'Weak Table In Lua'</li>
 
 <li>Hive Read Process</li>
 
@@ -6254,13 +6258,13 @@ Error message and password prompt
 <div created="20160422062136628" modified="20160422062136628" title="$:/state/showeditpreview">
 <pre>yes</pre>
 </div>
-<div created="20160411024954796" modified="20160627122907439" title="$:/state/sidebar">
+<div created="20160411024954796" modified="20160705080251087" title="$:/state/sidebar">
 <pre>yes</pre>
 </div>
 <div created="20160411024855895" modified="20160702065011358" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="[[Lua Manu]] GettingStarted" title="$:/StoryList">
+<div list="数学pearls GettingStarted" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -6276,6 +6280,9 @@ Error message and password prompt
         }
     }
 }</pre>
+</div>
+<div created="20160704080201790" modified="20160705071806913" title="$:/temp/search">
+<pre></pre>
 </div>
 <div author="JeremyRuston" core-version="&gt;=5.0.0" dependents="$:/themes/tiddlywiki/vanilla" description="Emphasises individual tiddlers" name="Snow White" plugin-type="theme" title="$:/themes/tiddlywiki/snowwhite" type="application/json" version="5.1.11">
 <pre>{
@@ -6390,7 +6397,7 @@ Error message and password prompt
 *针对用户未已注册爱流量的情况（模板编号TXZH302）
 :: 感谢参与XX（企业名称）的XXXX（活动名称），XXMB流量已存入您的爱流量账户，请使用本人手机号及初始密码登陆爱流量使用。密码：XXXXXX。有效期至XX月XX日。下载地址  http://t.cn/RZ4i7Xr</pre>
 </div>
-<div created="20160422061502585" modified="20160426033044917" tags="综合行政工作" title="互联网公司wiki">
+<div created="20160422061502585" modified="20160704081456438" tags="综合行政工作" title="互联网公司wiki">
 <pre>; 印章、证照使用的联系人:
 :  “中移互联网有限公司”印章，请联系 //''邱绩''//；
 : “中国移动通信集团广东有限公司互联网公司（筹建）”印章，请联系//''马戎''//；
@@ -6399,7 +6406,10 @@ Error message and password prompt
 
 ; 广东公司存量合同请款流程
 :[img[http://download.caiyun.feixin.10086.cn/storageWeb/servlet/GetFileByURLServlet?root=/mnt/wfs33&amp;fileid=DY493ea1a03c3576f8f3d58f4942f8d16c.png&amp;ct=1&amp;type=1&amp;code=D83925D9AE7A56986E9F0DAA575ABA5E17EE2D10E41F5398F81411684B72B197&amp;exp=33835&amp;p=1&amp;ui=0011XRYSs1Ja&amp;ci=0011XRYSs1Ja06120160426112448061&amp;cn=%E5%B9%BF%E4%B8%9C%E5%85%AC%E5%8F%B8%E5%AD%98%E9%87%8F%E5%90%88%E5%90%8C%E6%B5%81%E7%A8%8B&amp;oprChannel=10000025&amp;dom=D914]]
-</pre>
+
+
+; 业务系统名词
+:[[业务一部－AP计费、结算相关| Apartment One Charge And Billing]]</pre>
 </div>
 <div created="20160603021447766" modified="20160616015514243" tags="西瓜丸子汤 concept" title="生产力工具－邮件">
 <pre>&lt;&lt;&lt;
@@ -6417,6 +6427,37 @@ REFERENCES:
 
 #[[关于「企业微信」你值得了解的10件事|https://kenengba.com/post/3408.html]]
 &lt;&lt;&lt;</pre>
+</div>
+<div created="20160705071808318" modified="20160705080804875" tags="排列组合" title="数学pearls">
+<pre>;排列算法
+:: 针对在一个数组中不重复出现的数字`不可重复全排列`，列举出所有数字的所有排列方式。
+&gt;排列算法是参考数学计算组合学中的排列组合原理，针对array[n]的数字或者字符（假设array的元素不重复）；按照全排列原理，n个数字的全排列数是由：n、n-1、n-2、n－3、...、1，进行乘法运算得出排列结果 P,,n,, = n!
+*&gt;实际的排列算法需要得到的是实际排列的结果，而不是排列的可能数。但是可以依据全排列的计算方式来实现排列算法。
+
+
+,,permutation.lua,,
+
+```
+function permutation(list, n)
+    if(n == 1) then
+        print(list)
+    else
+       for i = 1, n do
+          list[i], list[n] = list[n],list[i]
+          permutation(list, n-1)
+          list[i], list[n] = list[n],list[i]
+          i = i + 1
+       end
+end
+
+```
+&gt;  `list[i], list[n] = list[n],list[i]` 该表达式实现排列方式中的转义，即在第i个位置上选定一个数字之后，其他位置上数字的排列。
+*&gt;大白话：在list数组上，将第i位与第n位调换位置后，将问题规模转为前n－1个元素的排列情况，且这n－1个元素的前一个元素确定位list[i].
+
+
+;REFERENCE
+---
+# [[计数组合与排列|http://chowkafat.net/Mathtopic.html]]</pre>
 </div>
 <div created="20160525111415509" modified="20160525115304626" tags="ideal 西瓜丸子汤" title="双创－邮件">
 <pre>;电子邮件语意结构化
@@ -6439,6 +6480,12 @@ REFERENCES:
 REFERENCE
 
 [[write call return EPIPE|http://man7.org/linux/man-pages/man2/write.2.html]]</pre>
+</div>
+<div created="20160704080528789" modified="20160704081500132" tags="互联网公司wiki" title="Apartment One Charge And Billing">
+<pre>*综合结算系统
+&gt;职能：生成业务D报表
+*AP结算系统
+&gt;职能：生成财务单系统</pre>
 </div>
 <div created="20160627121709407" modified="20160627122855526" tags="lua5.2" title="C Upvalue In Lua">
 <pre>;shared variable of C lib in Lua
@@ -6501,24 +6548,6 @@ in SMT system 每个thread都会在每个CPU分配有执行时间片段。操作
 REFERENCE:
 
 #[[thread and process| http://www.qnx.com/developers/docs/6.4.1/neutrino/getting_started/s1_procs.html]]</pre>
-</div>
-<div created="20160624034256183" draft.of="Weak Table In Lua" draft.title="Weak Table In Lua" modified="20160627062540346" tags="lua5.2 gc" title="Draft of 'Weak Table In Lua'">
-<pre>;Weak Table in Lua
-:场景：Lua 进行垃圾回收
-:输入：if an object is held only inside weak tables, lua will eventually collect the object.
-:输出：weak tables entries be collect.
-*举例说明weak tables
-&lt;&lt;&lt;
- weak table 的出发点是Lua的垃圾回收机制不能完全的辨别program中的object是否还有用，例如 Pil Chapter Weak tables and finalizers 中描述，A typical example is stack ,implemented with an array and an index to the top ,You know that the valid part of array goes only up to the top ,bu Lua does not.If you pop a element by simply decrementing the top,the object left in the array is not garbage to Lua.Similarly any object stored in a global variable is not garbage to Lua ,even if your program will never use it again.
-&lt;&lt;&lt;
-
-&lt;&lt;&lt;Notice that `only object can be collected for weak tables`, In Lua number and string is not garbage.
-&lt;&lt;&lt;
-
-;weak table define in lua:
-:the weakness of a table is given by the field &quot;_ _mode&quot; of its metatable.
-&lt;&lt;&lt;_ _mode = &quot;v&quot;(value in table is weak)/&quot;k&quot;(key in table is weak),either value or key in table is collected ,the entry of table is removed from table .
- </pre>
 </div>
 <div created="20160622111927892" modified="20160625021206088" tags="" title="Hive Read Process">
 <pre>!HIVE READ PROCESS
@@ -6905,7 +6934,7 @@ REFERENCE:
 
 #[[thread and process| http://www.qnx.com/developers/docs/6.4.1/neutrino/getting_started/s1_procs.html]]</pre>
 </div>
-<div created="20160624034256183" modified="20160624040745580" tags="lua5.2 gc" title="Weak Table In Lua">
+<div created="20160624034256183" modified="20160705073958026" tags="lua5.2 gc" title="Weak Table In Lua">
 <pre>;Weak Table in Lua
 :场景：Lua 进行垃圾回收
 :输入：if an object is held only inside weak tables, lua will eventually collect the object.
