@@ -151,9 +151,9 @@ Error message and password prompt
 
 <li>Apartment One Charge And Billing</li>
 
-<li>C Upvalue In Lua</li>
+<li>Buddy Memory Alloction</li>
 
-<li>Draft of 'Hive Read Process'</li>
+<li>C Upvalue In Lua</li>
 
 <li>Draft of 'New Tiddler'</li>
 
@@ -179,7 +179,15 @@ Error message and password prompt
 
 <li>LuaQuestion</li>
 
-<li>M币系统帐号同步</li>
+<li>M币系统管理</li>
+
+<li>Mb And Dev Corporation</li>
+
+<li>Mb Ap Billing Recorded</li>
+
+<li>Mb Operation Architecture Info</li>
+
+<li>New Tiddler 1</li>
 
 <li>perl</li>
 
@@ -192,6 +200,8 @@ Error message and password prompt
 <li>Thread &amp; Process</li>
 
 <li>Weak Table In Lua</li>
+
+<li>Why Cell_ud Wrap Cell In Hive</li>
 
 </ul>
 </p>
@@ -6258,13 +6268,13 @@ Error message and password prompt
 <div created="20160422062136628" modified="20160422062136628" title="$:/state/showeditpreview">
 <pre>yes</pre>
 </div>
-<div created="20160411024954796" modified="20160705080251087" title="$:/state/sidebar">
+<div created="20160411024954796" modified="20160708015155720" title="$:/state/sidebar">
 <pre>yes</pre>
 </div>
 <div created="20160411024855895" modified="20160702065011358" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="数学pearls GettingStarted" title="$:/StoryList">
+<div list="网络编程－hive LuaQuestion M币系统管理 [[Mb And Dev Corporation]] [[Mb Ap Billing Recorded]] [[Hive Read Process]] [[Why Cell_ud Wrap Cell In Hive]] [[Buddy Memory Alloction]] GettingStarted" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -6281,8 +6291,8 @@ Error message and password prompt
     }
 }</pre>
 </div>
-<div created="20160704080201790" modified="20160705071806913" title="$:/temp/search">
-<pre></pre>
+<div created="20160704080201790" modified="20160708021844370" title="$:/temp/search">
+<pre>M</pre>
 </div>
 <div author="JeremyRuston" core-version="&gt;=5.0.0" dependents="$:/themes/tiddlywiki/vanilla" description="Emphasises individual tiddlers" name="Snow White" plugin-type="theme" title="$:/themes/tiddlywiki/snowwhite" type="application/json" version="5.1.11">
 <pre>{
@@ -6468,7 +6478,7 @@ end
 基本设想是通过电子邮件充分组织起邮件本身丰富的结构信息，建立起信息之间的关联性：组建“看板+wiki”的邮件模式。
 &lt;&lt;&lt;</pre>
 </div>
-<div created="20160621093627624" modified="20160621112830965" tags="网络编程" title="网络编程－hive">
+<div created="20160621093627624" modified="20160708025026603" tags="网络编程" title="网络编程－hive">
 <pre>;signal(SIGPIPE, SIG_IGN);
 *TCP是全双工的信道, 可以看作两条单工信道, TCP连接两端的两个端点各负责一条. 当对端调用close时, 虽然本意是关闭整个两条信道, 但本端只是收到FIN包. 按照TCP协议的语义, 表示对端只是关闭了其所负责的那一条单工信道, 仍然可以继续接收数据. 也就是说, 因为TCP协议的限制, 一个端点无法获知对端的socket是调用了close还是shutdown.对一个已经收到FIN包的socket调用read方法, 如果接收缓冲已空, 则返回0, 这就是常说的表示连接关闭. 但第一次对其调用write方法时,如果发送缓冲没问题, 会返回正确写入(发送). 但发送的报文会导致对端发送RST报文, 因为对端的socket已经调用了close, 完全关闭, 既不发送, 也不接收数据. 所以, 第二次调用write方法(假设在收到RST之后), 会生成SIGPIPE信号, 导致进程退出.为了避免进程退出, 可以捕获SIGPIPE信号, 或者忽略它, 给它设置SIG_IGN信号处理函数:signal(SIGPIPE, SIG_IGN);这样, 第二次调用write方法时, 会返回-1, 同时errno置为SIGPIPE. 程序便能知道对端已经关闭.
  
@@ -6486,6 +6496,10 @@ REFERENCE
 &gt;职能：生成业务D报表
 *AP结算系统
 &gt;职能：生成财务单系统</pre>
+</div>
+<div created="20160708014613895" modified="20160708015138227" tags="algorithm hive" title="Buddy Memory Alloction">
+<pre>;[[引用云风的Buddy Memory Alloction的博文和实现|http://blog.codingnow.com/2011/12/buddy_memory_allocation.html]]
+&gt;在该实现中，博主提到非侵入的方式管理内存。借此理解以下非侵入的意思，即借由[[Buddy Memory Alloction|https://en.wikipedia.org/wiki/Buddy_memory_allocation]]算法提供的来索引实际使用的内存位置，实际内存的分配和回收都是通过Buddy算法来映射实际物理内存的使用状态，这就是非侵入式的意思（不需要在使用内存中打标签来判断内存块使用情况；</pre>
 </div>
 <div created="20160627121709407" modified="20160627122855526" tags="lua5.2" title="C Upvalue In Lua">
 <pre>;shared variable of C lib in Lua
@@ -6518,19 +6532,6 @@ libL_setfuncs(L, lib, 1)
 ```
 </pre>
 </div>
-<div created="20160622111927892" draft.of="Hive Read Process" draft.title="Hive Read Process" modified="20160627121651112" tags="" title="Draft of 'Hive Read Process'">
-<pre>!HIVE READ PROCESS
-* [[弄清楚hive中require 的使用|Hive Require]]；
-* [[弄清楚hive中lua function{} 函数调用实质|Lua Function Call]]
-* [[弄清楚lua中stack的分配和top的概念|Lua Stack And Top]]
-* Lua provides a registry, a predefined table for C to store data.
-* [[Lua 垃圾回收 weak table|Weak Table In Lua]].
-* [[Lua C 的upvalue 的使用范围|C Upvalue In Lua]]
-* [[Lua的函数调用桟机制| Lua Call Stack]]
-
----
-</pre>
-</div>
 <div created="20160524115656508" draft.of="New Tiddler" draft.title="New Tiddler" modified="20160524115656508" tags="" title="Draft of 'New Tiddler'">
 <pre></pre>
 </div>
@@ -6549,14 +6550,16 @@ REFERENCE:
 
 #[[thread and process| http://www.qnx.com/developers/docs/6.4.1/neutrino/getting_started/s1_procs.html]]</pre>
 </div>
-<div created="20160622111927892" modified="20160625021206088" tags="" title="Hive Read Process">
+<div created="20160622111927892" modified="20160708015144919" tags="" title="Hive Read Process">
 <pre>!HIVE READ PROCESS
 * [[弄清楚hive中require 的使用|Hive Require]]；
 * [[弄清楚hive中lua function{} 函数调用实质|Lua Function Call]]
 * [[弄清楚lua中stack的分配和top的概念|Lua Stack And Top]]
 * Lua provides a registry, a predefined table for C to store data.
-* [[Lua 垃圾回收－weak table|Weak Table In Lua]]
+* [[Lua 垃圾回收 weak table|Weak Table In Lua]].
+* [[Lua C 的upvalue 的使用范围|C Upvalue In Lua]]
 * [[Lua的函数调用桟机制| Lua Call Stack]]
+* [[Hive中为什么cell对象还要在外层包裹cell_ud|Why Cell_ud Wrap Cell In Hive]]
 ---
 </pre>
 </div>
@@ -6821,16 +6824,69 @@ Environments Tutorial [ext[http://lua-users.org/wiki/EnvironmentsTutorial]]
 ;❓：为什么library 不能在多个states中共享变量，state中不是也会绑定全局state吗？
 ;❓：是指Lua没有C相应的变量类型的值赋予C变量吗？</pre>
 </div>
-<div created="20160628025556990" modified="20160628030155009" tags="M币" title="M币系统帐号同步">
+<div created="20160628025556990" modified="20160708022117823" tags="M币" title="M币系统管理">
+<pre>;#[[M币系统与开发者社区交互信息|Mb And Dev Corporation]]
+;#[[M币系统架构信息|Mb Operation Architecture Info]]
+;#[[M币系统AP入账流程|Mb Ap Billing Recorded]]
+
+</pre>
+</div>
+<div created="20160707075456152" modified="20160707075503656" tags="M币" title="Mb And Dev Corporation">
 <pre>;M币系统开发者帐号
 :M币系统的开发者帐号信息来自于开发者社区同步的用户数据，开发者社区同步信息触发条件是：
 
 &lt;&lt;&lt;
 #目前配置了广告、数据服务签署开发者社区的电子协议后；
 #开发者社区通过配置相应的业务－李达
-&lt;&lt;&lt;
+&lt;&lt;&lt;</pre>
+</div>
+<div created="20160708022130021" modified="20160708025036767" tags="M币" title="Mb Ap Billing Recorded">
+<pre>;M币支撑自有业务入账流程
+;;#开发者社区配置M币帐户创建触发条件：
+&gt;#AP签署电子业务单后，开发者社区触发M币为AP[[创建帐户的配置|Mb And Dev Corporation]];
 
+
+;;#自有业务平台签署合作的AP入账流程
+&gt;#AP 向互联网公司指定帐号汇款；
+&gt;#AP 在开发者社区的帐户中心提交充值入账信息；
+&gt;#财务人员确认银行到帐后，在[[M币管理系统|http://120.197.235.57/cmmc/login.htm]]确认入账操作；
+&gt;#整个AP充值流程完成
 </pre>
+</div>
+<div created="20160707075855980" modified="20160707082520411" tags="M币" title="Mb Operation Architecture Info">
+<pre>;M币系统机器位置信息
+*资源池一期设备物理位置
+&gt;南基3.1栋 407 c02和c05柜
+10.164.1.4     cmccweb1 
+10.164.1.5     cmccweb2 
+10.165.1.4     cmccapp1 
+10.165.1.5     cmccapp2 
+10.165.1.6     cmccapp3 
+10.165.1.7     cmccapp4 
+10.164.1.6     cmccmon 
+10.165.1.9     cmccdb1 
+10.165.1.10         cmccdb2 
+
+*MM机房设备物理位置
+&gt;南基3.1栋305机房
+192.168.32.3 m3
+192.168.32.4 m4
+
+&gt;这两台服务器部署MM返利业务，负责与深圳中心服务器通过VPN网络进行通信，对接VPN的网卡信息如下
+&gt;&gt;网卡配置的ip地址为192.168.69.10/192.168.69.11；
+&gt;&gt;#网关是192.168.69.6；
+&gt;&gt;#前置IP地址：172.16.54.168  端口： 8000 
+&gt;&gt;深圳中心对接服务信息
+&gt;&gt;#服务器IP地址：172.16.59.227、172.16.59.252
+&gt;&gt;#用户名：ftp用户：mcftp，密码：cmsz@123* ，主目录：/var/ftp，主组：mcftpgp，附属组：upaygp
+
+;系统服务器服务信息
+* 10.165.1.9/10 数据库服务器
+</pre>
+</div>
+<div created="20160706065501158" modified="20160706065727580" tags="" title="New Tiddler 1">
+<pre># 合作伙伴－&gt;商用后－&gt;配置appID
+# </pre>
 </div>
 <div created="20160510020742558" modified="20160603023038005" tags="perl concept" title="perl">
 <pre>;perl data type
@@ -6951,6 +7007,12 @@ REFERENCE:
 :the weakness of a table is given by the field &quot;_ _mode&quot; of its metatable.
 &lt;&lt;&lt;_ _mode = &quot;v&quot;(value in table is weak)/&quot;k&quot;(key in table is weak),either value or key in table is collected ,the entry of table is removed from table .
  </pre>
+</div>
+<div created="20160708014007252" modified="20160708014557386" tags="hive lua5.2" title="Why Cell_ud Wrap Cell In Hive">
+<pre>;为什么在hive中对于cell对象还要在外层包裹cell_ud ＋ metatable来管理cell的状态和引用计数；
+:#是不是为了通过增加cell_ud这个层次方便管理cell的状态；
+:#具体cell管理由cell自身来处理。
+:#[[这是不是一种非侵入式管理|Buddy Memory Alloction]]</pre>
 </div>
 
 </div>
