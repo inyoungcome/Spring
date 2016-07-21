@@ -155,6 +155,8 @@ Error message and password prompt
 
 <li>C Upvalue In Lua</li>
 
+<li>Data Struct</li>
+
 <li>Draft of 'New Tiddler'</li>
 
 <li>Draft of 'Thread &amp; Process'</li>
@@ -198,6 +200,8 @@ Error message and password prompt
 <li>systemtap</li>
 
 <li>Thread &amp; Process</li>
+
+<li>Tree Data Struct</li>
 
 <li>Weak Table In Lua</li>
 
@@ -6265,16 +6269,16 @@ Error message and password prompt
 <div title="$:/isEncrypted">
 <pre>no</pre>
 </div>
-<div created="20160422062136628" modified="20160422062136628" title="$:/state/showeditpreview">
-<pre>yes</pre>
+<div created="20160422062136628" modified="20160721021313998" title="$:/state/showeditpreview">
+<pre>no</pre>
 </div>
-<div created="20160411024954796" modified="20160708015155720" title="$:/state/sidebar">
+<div created="20160411024954796" modified="20160721070326271" title="$:/state/sidebar">
 <pre>yes</pre>
 </div>
 <div created="20160411024855895" modified="20160702065011358" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="网络编程－hive LuaQuestion M币系统管理 [[Mb And Dev Corporation]] [[Mb Ap Billing Recorded]] [[Hive Read Process]] [[Why Cell_ud Wrap Cell In Hive]] [[Buddy Memory Alloction]] GettingStarted" title="$:/StoryList">
+<div list="M币系统管理 [[Mb Operation Architecture Info]] [[Mb And Dev Corporation]] [[Mb Ap Billing Recorded]] GettingStarted" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -6291,8 +6295,8 @@ Error message and password prompt
     }
 }</pre>
 </div>
-<div created="20160704080201790" modified="20160708021844370" title="$:/temp/search">
-<pre>M</pre>
+<div created="20160704080201790" modified="20160721070341797" title="$:/temp/search">
+<pre>M币</pre>
 </div>
 <div author="JeremyRuston" core-version="&gt;=5.0.0" dependents="$:/themes/tiddlywiki/vanilla" description="Emphasises individual tiddlers" name="Snow White" plugin-type="theme" title="$:/themes/tiddlywiki/snowwhite" type="application/json" version="5.1.11">
 <pre>{
@@ -6531,6 +6535,10 @@ luaL_newtable(L);
 libL_setfuncs(L, lib, 1) 
 ```
 </pre>
+</div>
+<div created="20160720082626673" modified="20160720082851576" tags="[[data struct]]" title="Data Struct">
+<pre>;常规数据结构介绍
+*[[Tree struct|Tree Data Struct]]</pre>
 </div>
 <div created="20160524115656508" draft.of="New Tiddler" draft.title="New Tiddler" modified="20160524115656508" tags="" title="Draft of 'New Tiddler'">
 <pre></pre>
@@ -6853,7 +6861,7 @@ Environments Tutorial [ext[http://lua-users.org/wiki/EnvironmentsTutorial]]
 &gt;#整个AP充值流程完成
 </pre>
 </div>
-<div created="20160707075855980" modified="20160707082520411" tags="M币" title="Mb Operation Architecture Info">
+<div created="20160707075855980" modified="20160711021240335" tags="M币" title="Mb Operation Architecture Info">
 <pre>;M币系统机器位置信息
 *资源池一期设备物理位置
 &gt;南基3.1栋 407 c02和c05柜
@@ -6866,6 +6874,8 @@ Environments Tutorial [ext[http://lua-users.org/wiki/EnvironmentsTutorial]]
 10.164.1.6     cmccmon 
 10.165.1.9     cmccdb1 
 10.165.1.10         cmccdb2 
+
+&gt;10.165.1.9、10.165.1.10数据库服务器已经调整到10.165.1.19、10.165.1.20
 
 *MM机房设备物理位置
 &gt;南基3.1栋305机房
@@ -6989,6 +6999,14 @@ in SMT system 每个thread都会在每个CPU分配有执行时间片段。操作
 REFERENCE:
 
 #[[thread and process| http://www.qnx.com/developers/docs/6.4.1/neutrino/getting_started/s1_procs.html]]</pre>
+</div>
+<div created="20160720082920326" modified="20160720083637012" tags="[[data struct]]" title="Tree Data Struct">
+<pre>;Tree Data Struct
+#the defination of [[self-balance|https://en.wikipedia.org/wiki/Self-balancing_binary_search_tree]]
+&lt;&lt;&lt;
+In computer science, a self-balancing (or height-balanced) binary search tree is any node-based binary search tree that automatically keeps its height (maximal number of levels below the root) small in the face of arbitrary item insertions and deletions.
+&lt;&lt;&lt;wiki
+:self balancing 的意思似乎是指binary tree这种数据结构针对插入、删除操作能够保障树的层次足够小。</pre>
 </div>
 <div created="20160624034256183" modified="20160705073958026" tags="lua5.2 gc" title="Weak Table In Lua">
 <pre>;Weak Table in Lua
