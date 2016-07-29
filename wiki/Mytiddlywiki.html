@@ -191,6 +191,8 @@ Error message and password prompt
 
 <li>New Tiddler 1</li>
 
+<li>Nginx</li>
+
 <li>perl</li>
 
 <li>Programming pearls</li>
@@ -6269,16 +6271,16 @@ Error message and password prompt
 <div title="$:/isEncrypted">
 <pre>no</pre>
 </div>
-<div created="20160422062136628" modified="20160721021313998" title="$:/state/showeditpreview">
+<div created="20160422062136628" modified="20160729071857187" title="$:/state/showeditpreview">
 <pre>no</pre>
 </div>
-<div created="20160411024954796" modified="20160721070326271" title="$:/state/sidebar">
+<div created="20160411024954796" modified="20160729081105600" title="$:/state/sidebar">
 <pre>yes</pre>
 </div>
 <div created="20160411024855895" modified="20160702065011358" title="$:/state/tab/sidebar--1835078512">
 <pre>$:/core/ui/SideBar/Recent</pre>
 </div>
-<div list="M币系统管理 [[Mb Operation Architecture Info]] [[Mb And Dev Corporation]] [[Mb Ap Billing Recorded]] GettingStarted" title="$:/StoryList">
+<div list="Nginx GettingStarted" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -6295,8 +6297,8 @@ Error message and password prompt
     }
 }</pre>
 </div>
-<div created="20160704080201790" modified="20160721070341797" title="$:/temp/search">
-<pre>M币</pre>
+<div created="20160704080201790" modified="20160726105750652" title="$:/temp/search">
+<pre></pre>
 </div>
 <div author="JeremyRuston" core-version="&gt;=5.0.0" dependents="$:/themes/tiddlywiki/vanilla" description="Emphasises individual tiddlers" name="Snow White" plugin-type="theme" title="$:/themes/tiddlywiki/snowwhite" type="application/json" version="5.1.11">
 <pre>{
@@ -6482,7 +6484,7 @@ end
 基本设想是通过电子邮件充分组织起邮件本身丰富的结构信息，建立起信息之间的关联性：组建“看板+wiki”的邮件模式。
 &lt;&lt;&lt;</pre>
 </div>
-<div created="20160621093627624" modified="20160708025026603" tags="网络编程" title="网络编程－hive">
+<div created="20160621093627624" modified="20160726110851326" tags="网络编程" title="网络编程－hive">
 <pre>;signal(SIGPIPE, SIG_IGN);
 *TCP是全双工的信道, 可以看作两条单工信道, TCP连接两端的两个端点各负责一条. 当对端调用close时, 虽然本意是关闭整个两条信道, 但本端只是收到FIN包. 按照TCP协议的语义, 表示对端只是关闭了其所负责的那一条单工信道, 仍然可以继续接收数据. 也就是说, 因为TCP协议的限制, 一个端点无法获知对端的socket是调用了close还是shutdown.对一个已经收到FIN包的socket调用read方法, 如果接收缓冲已空, 则返回0, 这就是常说的表示连接关闭. 但第一次对其调用write方法时,如果发送缓冲没问题, 会返回正确写入(发送). 但发送的报文会导致对端发送RST报文, 因为对端的socket已经调用了close, 完全关闭, 既不发送, 也不接收数据. 所以, 第二次调用write方法(假设在收到RST之后), 会生成SIGPIPE信号, 导致进程退出.为了避免进程退出, 可以捕获SIGPIPE信号, 或者忽略它, 给它设置SIG_IGN信号处理函数:signal(SIGPIPE, SIG_IGN);这样, 第二次调用write方法时, 会返回-1, 同时errno置为SIGPIPE. 程序便能知道对端已经关闭.
  
@@ -6490,6 +6492,8 @@ end
 ; setsockopt(listen_fd, SOL_SOCKET, SO_REUSEADDR, (void *)&amp;reuse, sizeof(int));
 *[[SO_REUSEADDR|http://www.unixguide.net/network/socketfaq/4.11.shtml]] allows your server to bind to an address which is in a TIME_WAIT state.
 
+;in linux ,the epoll will cause poll_wait for ET or LT,因此需要理解读写事件发生的ET、LT的区别和使用方式，参考linux referenct about [[epoll|http://man7.org/linux/man-pages/man7/epoll.7.html]].
+:可以理解ET是在文件描述符状态发生变化时触发的返回，而LT是在文件描述符的状态是可读或者可写的状态就返回的interface。
 ---
 REFERENCE
 
@@ -6897,6 +6901,136 @@ Environments Tutorial [ext[http://lua-users.org/wiki/EnvironmentsTutorial]]
 <div created="20160706065501158" modified="20160706065727580" tags="" title="New Tiddler 1">
 <pre># 合作伙伴－&gt;商用后－&gt;配置appID
 # </pre>
+</div>
+<div created="20160727112751860" modified="20160729081104937" tags="nginx" title="Nginx">
+<pre>;nginx 变量；
+*nginx 内部变量；
+::nginx 内部变量的引用通过$，主要是解析http请求后的一些变量供开发者调用。
+*自定义变量；
+::自定义变量是通过指令 `set`指定。
+;nginx 初始化配置文件过程；
+
+;nginx 处理http请求过程；
+nginx接收到客户端发起的http请求后，首先解析http的request line（包括method、uri、http version），随后解析request header，http协议具体的信息参考[[http rfc|https://www.w3.org/Protocols/rfc2616/rfc2616-sec5.html]]。解析完request header后就直接进入http执行截断即 handler phrase。以上内容参考自[[Nginx开发从入门到精通|http://tengine.taobao.org/book/chapter_02.html#request]],实际情况还没有阅读源代码。
+
+;nginx http执行顺序；
+继上所述，当nginx解析http request header后，就进入handler phrase阶段。这个阶段定义就是处理http请求内容，生成response 后返回给客户端。并且在这个处理阶段将处理过程划分为11个phrase，具体每个phrase的定义待查，部分内容参考了[[agentzh-nginx-tutorials Nginx directive execution order|http://openresty.org/download/agentzh-nginx-tutorials-en.html#02-nginxdirectiveexecorder01]]。
+
+;nginx 配置指令
+当在同一个phrase情况下有多个module的command，nginx的执行顺序并不是你所期待的情况一致；nginx的http配置指令的执行不是依据指令在配置文件中的书写顺序，而是依据handle phrase以及配置指令所属module的属性来确定的。
+nginx 的module编写指令集时会为指令指定作用域（main/service/location)，同时也会指定module所属的handle phrase。
+
+*POST READ
+: Phrase post-read是第一个执行的阶段，当nginx解析完http request 的header后就会执行注册到该阶段的command。
+
+post-read phrase能处理http、server context下的指令，对于在location中的指令未在find-config phrase匹配location情况下不会被执行。并且在不同server下执行的结果不会影响其他server环境，而在http下执行的结果能影响server。
+
+```
+http{
+server{
+listen 8080;
+set_real_ip_from 127.0.0.1;
+real_ip_header X-Real-Ip;
+location /test{
+echo &quot;from $remote_addr&quot;;
+}
+}
+
+server{
+listen 9001;
+location /test{
+echo &quot;from $remote_addr&quot;;
+}
+}
+}
+---
+curl -H 'X-Real-Ip:1.2.3.4' http://localhost:8080/test
+-- from 1.2.3.4
+curl -H 'X-Real-Ip:1.2.3.4' http://localhost:9001/test
+-- from 127.0.0.1
+```
+```
+http{
+server{
+listen 8080;
+location /test{
+set_real_ip_from 127.0.0.1;
+real_ip_header X-Real-Ip;
+echo &quot;from $remote_addr&quot;;
+}
+}
+
+server{
+listen 9001;
+location /test{
+echo &quot;from $remote_addr&quot;;
+}
+}
+}
+
+---
+curl -H 'X-Real-Ip:1.2.3.4' http://localhost:8080/test
+-- from 127.0.0.1
+curl -H 'X-Real-Ip:1.2.3.4' http://localhost:9001/test
+-- from 127.0.0.1
+```
+```
+http{
+
+set_real_ip_from 127.0.0.1;
+real_ip_header X-Real-Ip;
+
+server{
+listen 8080;
+location /test{
+echo &quot;from $remote_addr&quot;;
+}
+}
+
+server{
+listen 9001;
+location /test{
+echo &quot;from $remote_addr&quot;;
+}
+}
+}
+
+---
+curl -H 'X-Real-Ip:1.2.3.4' http://localhost:8080/test
+-- from 1.2.3.4
+curl -H 'X-Real-Ip:1.2.3.4' http://localhost:9001/test
+-- from 1.2.3.4
+```
+
+*SERVER REWITE
+: rewrite module command 在server context 并且不在location context下的指令会在这个阶段被执行。
+*`FIND CONFIG`
+: 不允许module在这个阶段注册handler，这个阶段由nginx core 进行match当前request to location directives。意味find-config在为匹配任何location之前，location block中的command不会被执行（在post－read 中已经实验过）。
+*REWRITE
+
+*`POST REWRITE`
+:同样也不允许module在这个阶段注册handler，这个阶段就是处理在REWRITE中制定的internal 跳转，实质是调用链表中重新会到find-config阶段。
+*`PRE ACCESS`
+这个阶段的工作是控制并发链接量和请求数，应该是针对指定的uri的限制操作，因为指令的context是在location。
+*ACCESS
+权限的检验阶段
+*POST ACCESS
+主要是针对ACCESS权限验证的control，即 ACCESS验证通过的条件是 ：“AND”（全部验证通过能继续执行）还是“OR&quot;（只要有通过的条件就可执行）；
+*`TRY FILES`
+:check the existence of files in the special order and use the first found for the request processing.try_files 查询文件的路径是依据root、alias配置的路径去查找file，如果需要查看目录是否存在，可在file变量后面增加slash '\'。如果没能找到指定的文件，那么就会将最后的参数做internel redirect 内部跳转路径location进行匹配。
+这里主要是对try_files的参数匹配，匹配上了就将uri指定为相应的文件对象，如都不存在则将最后的参数指定为内部跳转的uri。
+*CONTENT
+:处理request的body产出阶段，这个阶段可以有两种handler，一是phrase handler，另外是handler。当注册了handler后，就不会执行phrase handler的执行链。具体handler的注册方式需要参考在[[Nginx开发从入门到精通|http://tengine.taobao.org/book/chapter_02.html#request]]。
+Content阶段的注册多个module时，module的指令执行是不可预测的。有可能会导致某些module的指令不能执行。因为phrase执行阶段若module返回OK，那么就会进入下一个执行阶段，而本阶段还注册的module就被跳过了。
+
+*LOG
+:Log phrase阶段的处理逻辑是会执行完所有注册的module。
+
+根据[[Nginx开发从入门到精通|http://tengine.taobao.org/book/chapter_02.html#request]]中所描述nginx module 开发的内容，其中提及module command的注册和module执行链条。可以理解在11 个Phrase阶段实质是一条执行链表，链表中是相应module，在某个阶段执行的command就是执行链表中module的函数，该module返回OK是就到下一个phrase，否则就一直执行该phrase下的其他module。这条执行链应该是nginx解析nginx.conf是初始完成的。当然具体phrase执行的module还会查看当前指令的context，配合context、phrase、module list操作处理http request内容。
+
+---
+
+#[[nginx module development guide|http://www.evanmiller.org/nginx-modules-guide.html]]。</pre>
 </div>
 <div created="20160510020742558" modified="20160603023038005" tags="perl concept" title="perl">
 <pre>;perl data type
