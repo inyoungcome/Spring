@@ -7,10 +7,21 @@ require 'digest/md5'
 #IO.foreach("user"){|block| p = PinYin.of_string(block) p.pack("a100a100a100")}
 users = IO.readlines("user")
 
-users.each{|item| PinYin.of_string(item)}
+namelist = ''
+while users.size != 0 do
+    nameZh = users.shift
+    if users.size == 0 then
+        name = PinYin.of_string(nameZh).join()
+    else
+        name = PinYin.of_string(nameZh).join() + ','
+    end
+    namelist = namelist + name
+    #puts "#{nameZh} #{name}"
+end
 
 
 
+users = IO.readlines("user")
 # return ['jie', 'cao']
 
 #name = PinYin.of_string('盛中华').pack("a10a10a10")
@@ -19,7 +30,7 @@ while users.size != 0 do
     name = PinYin.of_string(zhname).join()
     #passwd= Digest::MD5.hexdigest(name)
     passwd= name.crypt('A@')
-    puts "#{name}=#{passwd}" 
+    puts "#{zhname} #{name}=#{passwd}" 
 end
 
 

@@ -117,6 +117,10 @@ Error message and password prompt
 
 <p>This <a class="tc-tiddlylink-external" href="http://tiddlywiki.com" target="_blank">TiddlyWiki</a> contains the following tiddlers:</p><p><ul>
 
+<li>$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/full-screen</li>
+
+<li>$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/tag-manager</li>
+
 <li>$:/core</li>
 
 <li>$:/Import</li>
@@ -157,6 +161,8 @@ Error message and password prompt
 
 <li>网络IO事件</li>
 
+<li>文字</li>
+
 <li>无题</li>
 
 <li>apache httpd web服务器常见问题</li>
@@ -178,6 +184,10 @@ Error message and password prompt
 <li>Draft of 'New Tiddler'</li>
 
 <li>Draft of 'Postgresql'</li>
+
+<li>Erlang 模式匹配</li>
+
+<li>Erlang 推导</li>
 
 <li>Hive Read Process</li>
 
@@ -273,6 +283,12 @@ Error message and password prompt
 <!--~~ Ordinary tiddlers ~~-->
 
 <div id="storeArea" style="display:none;">
+<div created="20170707005524044" modified="20170707005524044" title="$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/full-screen">
+<pre>show</pre>
+</div>
+<div created="20170707005504497" modified="20170707005518256" title="$:/config/PageControlButtons/Visibility/$:/core/ui/Buttons/tag-manager">
+<pre>hide</pre>
+</div>
 <div author="JeremyRuston" core-version="&gt;=5.0.0" dependents="" description="TiddlyWiki5 core" list="readme" plugin-priority="0" plugin-type="plugin" title="$:/core" type="application/json" version="5.1.11">
 <pre>{
     &quot;tiddlers&quot;: {
@@ -6335,16 +6351,16 @@ Error message and password prompt
 <div title="$:/isEncrypted">
 <pre>no</pre>
 </div>
-<div created="20160422062136628" modified="20170116122644653" title="$:/state/showeditpreview">
+<div created="20160422062136628" modified="20170707001825444" title="$:/state/showeditpreview">
 <pre>yes</pre>
 </div>
 <div created="20160411024954796" modified="20170301082322268" title="$:/state/sidebar">
 <pre>yes</pre>
 </div>
-<div created="20160411024855895" modified="20170122073938730" title="$:/state/tab/sidebar--1835078512">
-<pre>$:/core/ui/SideBar/Recent</pre>
+<div created="20160411024855895" modified="20170707005541631" title="$:/state/tab/sidebar--1835078512">
+<pre>$:/core/ui/SideBar/Open</pre>
 </div>
-<div list="[[Apache Vhost]] Oracle Ruby [[apache httpd web服务器常见问题]] GettingStarted" title="$:/StoryList">
+<div list="[[Erlang 模式匹配]] [[Erlang 推导]] 文字 GettingStarted" title="$:/StoryList">
 <pre></pre>
 </div>
 <div plugin-type="info" title="$:/temp/info-plugin" type="application/json">
@@ -6604,6 +6620,9 @@ REFERENCE
 <pre>;What is edge- triggered and level-triggered
 :The short answer is, edge-triggered means that you get notified only when the event is detected (which takes place, conceptually, in an instant), while level-triggered means you get notified whenever the event is present (which will be true over a period of time). For example, in an edge-triggered system, if you want a notification to signal you when data is available to read, you'll only get that notification when data was not available to read before, but now it is. If you read some of the available data (so that remaining data is still available to read) you would not get another notification, and if you read all of the available data, then you would get another notification when data became available to read again. In a level-triggered system, you'd get that notification whenever data is available to read.</pre>
 </div>
+<div created="20170706004356924" modified="20170706004410685" tags="" title="文字">
+<pre>Erlang顺序编程的剩余部分是一些零零散散的东西，你必须了解它们，而它们无法归类于其 他主题。这些主题没有什么特定的顺序，为了便于参考，我们将依照英文字母顺序来对它们进行 介绍。涉及的主题如下。</pre>
+</div>
 <div created="20170301081258070" modified="20170301082321456" tags="oracle" title="无题">
 <pre>;subquery in oracle
 * subquery 可出线于FROM、WHERE；
@@ -6746,6 +6765,63 @@ update website set hits=hits+1 where hits=10;
 #[[数据库锁介绍|http://blog.nordeus.com/dev-ops/postgresql-locking-revealed.htm]]。
 #[[stackoverflow 关于sql中What is the difference in JOIN|http://stackoverflow.com/questions/38549/what-is-the-difference-between-inner-join-and-outer-join]]。
 #[[Visual Representation of SQL Joins|http://www.codeproject.com/Articles/33052/Visual-Representation-of-SQL-Joins]]。</pre>
+</div>
+<div created="20170707004226370" modified="20170707010158020" tags="Erlang" title="Erlang 模式匹配">
+<pre>;模式匹配操作符
+func1([{tag1,A,B|T]) -&gt; 
+
+:    ...
+:    ...  f(..., {tag1,A,B}, ...)
+:    ...
+
+此处重复出现的 {tag1,A,B} 系统会发生重建数据类型的操作，高效使用的方式是通过指派给临时变量 Z ，后传给 f。
+
+func1(`{tag1,A,B} =Z` |T] -&gt; 
+
+:    ... 
+:    ... f(..., `Z`, ...)...
+:    ...
+
+标红部分是模式匹配操作符使用到模式里的例子，它可以使用到任何位置。如下：
+
+func1( [ {tag1,{A.B},C} |T]) -&gt;
+
+:...
+:... f(..., {tag1,{A,B},C}, ...)
+:...g(...,{A,B},...}, ...).
+:...
+
+可以使用：
+
+func1([ tag1,`{A,B} = Z`,,1,, , C} = `Z`,,2,, } |T]) -&gt; 
+
+:...
+:... f(..., `Z`,,1,,,...)...
+:...g(..., `Z`,,2,...)...
+:...</pre>
+</div>
+<div created="20170707001703836" modified="20170707004224504" tags="Erlang" title="Erlang 推导">
+<pre>; 二进制推导式子
+&lt;&lt; &lt;&lt; X,Y&gt;&gt; || &lt;&lt; X&gt;&gt; &lt;= &lt;&lt; &quot;avb&quot;&gt;&gt;, &lt;&lt; Y&gt;&gt; &lt;= &lt;&lt; &quot;efg&quot;&gt;&gt; &gt;&gt;.
+后续的表达式列表是一种嵌套循环，其结果是：
+&lt;&lt; &quot;a`e`a`f`a`g`v`e`v`f`v`g`b`e`b`f`b`g`&quot;&gt;&gt;
+
+; 列表推导式
+列表推导是一种无需`fun`，`map`、`filter` 就能创建`列表`的表达式；
+列表推导式的常规格式：
+
+::[ X ||  Qualifier1,Qualifier2...]
+:X 是任意一条表达式，后面的限定符Qualifier 是 `生成器` 或者 `过滤器`.
+:*生成器的写法 Pattern &lt;- ListExpr，其中 ListExpr `必须`是能够得出列表的表达式；
+:* 位串生成器的写法 BitStringPattern &lt;= BitStringExpr ,其中 BitStringExpr 是能够生成位串的表达式。
+:*过滤器即可以是判断函数（返回true 或 false的函数） 也可以是 布尔表达式。
+
+列表推导中现在接触了两种，一种生成`列表`，一种生成`位串`; 在表达式`Quelifier` 中只能有两种表达式，要么是生成器，要么是过滤器，除此之外都会报错。
+
+* 例如我想获取某个字符的Base64对应的值
+&lt;&lt; &lt;&lt; X,N&gt;&gt; || &lt;&lt; X&gt;&gt; &lt;= &lt;&lt;&quot;abc&quot;&gt;&gt;, `#{ X := L} = Base64` &gt;&gt;.
+由于标红部分既不符合`生成器` 也不满足 `过滤器`格式，导致报错
+</pre>
 </div>
 <div created="20160622111927892" modified="20160816010704941" tags="" title="Hive Read Process">
 <pre>!HIVE READ PROCESS
